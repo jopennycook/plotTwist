@@ -11,3 +11,6 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: ggplot2, grid, showtext, sysfonts, ggtext, rlang, vctrs
+Depends: 
+    R (>= 2.10)
+LazyData: true
