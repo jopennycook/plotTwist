@@ -114,46 +114,56 @@ rect_to_poly <- function(xmin, xmax, ymin, ymax) {
 }
 
 diag_stripe_points <- function(width, height, spacing, flip = FALSE) {
-        outline_spacing <- (2 * (spacing ^ 2)) ^ 0.5
 
-        if (outline_spacing < width) {
-                width_points <- seq(outline_spacing, width, outline_spacing)
-                w_partial <- outline_spacing - (width - tail(width_points, 1))
+        if(width == 0 | height == 0) {
+                from_x <- 0
+                to_x <- 0
+                from_y <- 0
+                to_y <- 0
         } else {
-                width_points <- numeric()
-                w_partial <- outline_spacing - width
-        }
 
-        if(w_partial < height) {
-                height2_points <- seq(w_partial,
-                                      height, outline_spacing)
-        } else {
-                height2_points <- numeric()
-        }
+                outline_spacing <- (2 * (spacing ^ 2)) ^ 0.5
 
-        if (outline_spacing < height) {
-                height_points <- seq(outline_spacing, height, outline_spacing)
-                h_partial <- outline_spacing - (height - tail(height_points, 1))
-        } else {
-                height_points <- numeric()
-                h_partial <- outline_spacing - height
-        }
+                if (outline_spacing < width) {
+                        width_points <- seq(outline_spacing, width, outline_spacing)
+                        w_partial <- outline_spacing - (width - tail(width_points, 1))
+                } else {
+                        width_points <- numeric()
+                        w_partial <- outline_spacing - width
+                }
 
-        if(h_partial < width) {
-                width2_points <- seq(h_partial,
-                                     width, outline_spacing)
-        } else {
-                width2_points <- numeric()
-        }
+                if(w_partial < height) {
+                        height2_points <- seq(w_partial,
+                                              height, outline_spacing)
+                } else {
+                        height2_points <- numeric()
+                }
 
-        from_x <- c(rep(0, length(height_points)), width2_points)
-        from_y <- c(height_points, rep(height, length(width2_points)))
-        to_x <- c(width_points, rep(width, length(height2_points)))
-        to_y <- c(rep(0, length(width_points)), height2_points)
+                if (outline_spacing < height) {
+                        height_points <- seq(outline_spacing, height, outline_spacing)
+                        h_partial <- outline_spacing - (height - tail(height_points, 1))
+                } else {
+                        height_points <- numeric()
+                        h_partial <- outline_spacing - height
+                }
 
-        if(flip == TRUE) {
-                from_y <- height - from_y
-                to_y <- (to_y - height) * -1
+                if(h_partial < width) {
+                        width2_points <- seq(h_partial,
+                                             width, outline_spacing)
+                } else {
+                        width2_points <- numeric()
+                }
+
+                from_x <- c(rep(0, length(height_points)), width2_points)
+                from_y <- c(height_points, rep(height, length(width2_points)))
+                to_x <- c(width_points, rep(width, length(height2_points)))
+                to_y <- c(rep(0, length(width_points)), height2_points)
+
+                if(flip == TRUE) {
+                        from_y <- height - from_y
+                        to_y <- (to_y - height) * -1
+                }
+
         }
 
         data.frame("from_x" = from_x,
